@@ -1,0 +1,15 @@
+[Unit]
+Description=Matrix IRC Bridge
+After=network.target matrix-synapse.service
+
+[Service]
+Type=simple
+ExecStart=@execBin@ -c /etc/matrix-appservice-irc/config.yaml -f /etc/matrix-appservice-irc/registration.yaml
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestrictAddressFamilies=AF_INET AF_INET6
+StateDirectory=matrix-appservice-irc
+ConfigurationDirectory=matrix-appservice-irc
+
+[Install]
+WantedBy=multi-user.target
