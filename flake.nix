@@ -12,6 +12,7 @@
         modules = [ ];
       }).config.system.nixos;
       matrix-appservice-irc = pkgs.matrix-appservice-irc;
+      node = pkgs.lib.findFirst (p: (pkgs.lib.getName p) == "nodejs-slim") null pkgs.matrix-appservice-irc.nativeBuildInputs;
     in {
       formatter.x86_64-linux = pkgs.nixfmt;
       packages.x86_64-linux.default = (import ./build.nix {
@@ -19,6 +20,7 @@
       });
       packages.x86_64-linux.release-info = pkgs.writeText "release-info.txt" ''
         matrix-appservice-irc: ${matrix-appservice-irc.version}
+        nodejs-slim: ${node.version}
         ${nixos.distroName} ${nixos.release} (${nixos.codeName})
         ${nixos.distroId} ${nixos.label}
       '';
